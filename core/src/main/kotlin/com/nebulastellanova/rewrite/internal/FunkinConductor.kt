@@ -8,9 +8,9 @@ import org.flixelgdx.audio.FlixelSound
 
 class FunkinConductor : FlixelBasic() {
 
-//    companion object {
-//        private val jsonReader = JsonReader()
-//    }
+    companion object {
+        private val jsonReader = JsonReader()
+    }
 
     var bpm: Double = 0.0
     var curBeatDouble: Double = 0.0
@@ -37,11 +37,10 @@ class FunkinConductor : FlixelBasic() {
         get() = track?.time?.toDouble() ?: 0.0
 
     fun loadTrack(path: String) {
-        track = Flixel.sound.play("$path/audio.mp3")
-        track?.stop()
+        track = Flixel.sound.play("$path/audio.mp3").stop()
 
-//        val meta = jsonReader.parse(Gdx.files.internal("$path/meta.json"))
-//        bpm = meta.getDouble("bpm")
+        val meta = jsonReader.parse(Gdx.files.internal("$path/meta.json"))
+        bpm = meta.getDouble("bpm")
     }
 
     override fun update(elapsed: Float) {

@@ -101,14 +101,16 @@ class MainMenu : FlixelState() {
         }
 
         if (Flixel.keys.justPressed(FlixelKey.DOWN) && canSelect) {
-            curSelected++
-            curSelected = curSelected.wrap(0, items.size)
-            Flixel.sound.play("sounds/menu/scroll.mp3")
+            scrollMenu(1)
         }
         if (Flixel.keys.justPressed(FlixelKey.UP) && canSelect) {
-            curSelected--
-            curSelected = curSelected.wrap(0, items.size)
-            Flixel.sound.play("sounds/menu/scroll.mp3")
+            scrollMenu(-1)
         }
+    }
+
+    private fun scrollMenu(dir: Int) {
+        curSelected += dir
+        curSelected = curSelected.wrap(0, items.size)
+        Flixel.sound.play("sounds/menu/scroll.mp3")
     }
 }

@@ -13,5 +13,4 @@ object MathUtil {
         if (this > max - 1) return min
         return this
     }
-
 }
