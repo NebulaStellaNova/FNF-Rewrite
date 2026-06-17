@@ -1,7 +1,7 @@
 package com.nebulastellanova.rewrite.states
 
 import com.nebulastellanova.rewrite.internal.FunkinConductor
-import com.nebulastellanova.rewrite.utils.Paths
+import com.nebulastellanova.rewrite.util.Paths
 import org.flixelgdx.Flixel
 import org.flixelgdx.FlixelSprite
 import org.flixelgdx.FlixelState

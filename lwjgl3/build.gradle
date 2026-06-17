@@ -39,7 +39,7 @@ run {
     // You can uncomment the next line if your IDE claims a build failure even when the app closed properly.
     setIgnoreExitValue(true)
 
-    jvmArgs = ["-Xms8M", "-Xmx4096M"]
+    jvmArgs = ["-Xms8M", "-Xmx16M"]
     if (isMacOs) jvmArgs += "-XstartOnFirstThread"
 
     // Always re-run even when no sources changed; without this Gradle marks the

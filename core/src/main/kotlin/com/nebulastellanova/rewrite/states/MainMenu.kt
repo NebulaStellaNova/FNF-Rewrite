@@ -1,10 +1,8 @@
 package com.nebulastellanova.rewrite.states
 
-import com.badlogic.gdx.utils.Predicate
-import com.nebulastellanova.rewrite.utils.ConsoleColors
-import com.nebulastellanova.rewrite.utils.MathUtil.wrap
-import com.nebulastellanova.rewrite.utils.ParseUtil
-import com.nebulastellanova.rewrite.utils.Paths
+import com.nebulastellanova.rewrite.util.MathUtil.wrap
+import com.nebulastellanova.rewrite.util.ParseUtil
+import com.nebulastellanova.rewrite.util.Paths
 import org.flixelgdx.Flixel
 import org.flixelgdx.FlixelSprite
 import org.flixelgdx.FlixelState
@@ -12,13 +10,10 @@ import org.flixelgdx.animation.FlixelAnimationController
 import org.flixelgdx.input.keyboard.FlixelKey
 import org.flixelgdx.tween.FlixelTween
 import org.flixelgdx.tween.settings.FlixelTweenSettings
-import org.flixelgdx.tween.type.FlixelFlickerTween
 import org.flixelgdx.util.FlixelAxes
-import org.flixelgdx.util.FlixelMathUtil
 import org.flixelgdx.util.timer.FlixelTimer
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
 class MainMenu : FlixelState() {

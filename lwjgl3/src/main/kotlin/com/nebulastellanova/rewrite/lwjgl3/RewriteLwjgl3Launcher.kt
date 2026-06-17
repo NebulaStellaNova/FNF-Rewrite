@@ -1,7 +1,7 @@
 package com.nebulastellanova.rewrite.lwjgl3
 
 import org.flixelgdx.backend.lwjgl3.FlixelLwjgl3Launcher
-import com.nebulastellanova.rewrite.RewriteGame
+import com.nebulastellanova.rewrite.FunkinGame
 import org.flixelgdx.backend.runtime.FlixelRuntimeMode
 
 /**
@@ -18,5 +18,5 @@ fun main() {
     return
   }
 
-  FlixelLwjgl3Launcher.launch(RewriteGame(), FlixelRuntimeMode.DEBUG)
+  FlixelLwjgl3Launcher.launch(FunkinGame(), FlixelRuntimeMode.DEBUG)
 }
