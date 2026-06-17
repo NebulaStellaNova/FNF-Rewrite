@@ -1,5 +1,7 @@
 package com.nebulastellanova.rewrite.states
 
+import com.badlogic.gdx.utils.Array as GdxArray
+import com.badlogic.gdx.utils.XmlReader
 import com.nebulastellanova.rewrite.util.MathUtil.wrap
 import com.nebulastellanova.rewrite.util.ParseUtil
 import com.nebulastellanova.rewrite.util.Paths
@@ -12,16 +14,13 @@ import org.flixelgdx.tween.FlixelTween
 import org.flixelgdx.tween.settings.FlixelTweenSettings
 import org.flixelgdx.util.FlixelAxes
 import org.flixelgdx.util.timer.FlixelTimer
-import org.w3c.dom.Document
-import org.w3c.dom.Element
-import org.w3c.dom.NodeList
 
 class MainMenu : FlixelState() {
     lateinit var background: FlixelSprite
 
-    var items = arrayListOf<FlixelSprite>()
-    var ids = arrayListOf<String>()
-    var targets = arrayListOf<String?>()
+    val items: GdxArray<FlixelSprite> = GdxArray()
+    val ids: GdxArray<String> = GdxArray()
+    val targets: GdxArray<String?> = GdxArray()
     var curSelected = 0
     var canSelect: Boolean = true
 
@@ -29,8 +28,10 @@ class MainMenu : FlixelState() {
         super.create()
 
         items.clear()
+        ids.clear()
+        targets.clear()
 
-        var menuData: Document? = ParseUtil.loadXmlFromPath("assets/data/config/mainmenu.xml")
+        val menuData: XmlReader.Element? = ParseUtil.loadXml("data/config/mainmenu.xml")
 
         background = FlixelSprite(-150f, 100f)
         background.loadGraphic(Paths.image("menus/main/menuBG"))
@@ -40,27 +41,19 @@ class MainMenu : FlixelState() {
         add(background)
 
         if (menuData != null) {
-            var element = menuData.documentElement;
-            element.normalize()
-            var buttonList: NodeList = element.getElementsByTagName("button");
+            val buttons = menuData.getChildrenByName("button")
+            for (i in 0 until buttons.size) {
+                val element: XmlReader.Element = buttons[i]
+                val target: String? = element.getAttribute("target", "").trim().takeIf { it.isNotEmpty() }
+                val imgPath: String = element.getAttribute("asset")
+                val idle: XmlReader.Element = element.getChildByName("idle")!!
+                val iOffsetX: Float = idle.getFloatAttribute("x", 0f)
+                val iOffsetY: Float = idle.getFloatAttribute("y", 0f)
+                val selected: XmlReader.Element = element.getChildByName("selected")!!
+                val sOffsetX: Float = selected.getFloatAttribute("x", 0f)
+                val sOffsetY: Float = selected.getFloatAttribute("y", 0f)
 
-            for (i in 0 until buttonList.length) {
-                val node = buttonList.item(i)
-                val element = node as Element
-                var target: String? = if (element.getAttribute("target").toString().trim() != "") element.getAttribute("target") else null
-                var imgPath: String = element.getAttribute("asset");
-                var idle = element.getElementsByTagName("idle").item(0) as Element;
-                var iOffsetX: Float =
-                    if (idle.getAttribute("x").toString().trim() != "") idle.getAttribute("x").toFloat() else 0f;
-                var iOffsetY: Float =
-                    if (idle.getAttribute("y").toString().trim() != "") idle.getAttribute("y").toFloat() else 0f;
-                var selected = element.getElementsByTagName("selected").item(0) as Element;
-                var sOffsetX: Float = if (selected.getAttribute("x").toString().trim() != "") selected.getAttribute("x")
-                    .toFloat() else 0f;
-                var sOffsetY: Float = if (selected.getAttribute("y").toString().trim() != "") selected.getAttribute("y")
-                    .toFloat() else 0f;
-
-                var button: FlixelSprite = FlixelSprite(0f, -150f * i)
+                val button = FlixelSprite(0f, -150f * i)
                 button.y += 720 - 200
                 button.animation = FlixelAnimationController(button)
                 button.animation?.loadSparrowFrames(Paths.image(imgPath), Paths.sparrow(imgPath))
@@ -85,20 +78,16 @@ class MainMenu : FlixelState() {
     override fun update(elapsed: Float) {
         super.update(elapsed)
 
-        if (Flixel.keys.justPressed(FlixelKey.F4)) {
-            Flixel.switchState(MainMenu())
-        }
-
-        var i = 0
-        for (item in items) {
-            var animName: String = if (i != curSelected) "idle" else "selected"
+        for (i in 0 until items.size) {
+            val item = items[i]
+            val animName: String = if (i != curSelected) "idle" else "selected"
             if (item.animation?.currentAnim != animName) {
                 item.animation?.playAnimation(animName)
             }
             if (i == curSelected && Flixel.keys.justPressed(FlixelKey.ENTER) && canSelect) {
                 Flixel.sound.play("sounds/menu/confirm.mp3")
                 FlixelTween.flicker(item, 0.1f, 0.5f, false, FlixelTweenSettings(), null)
-                FlixelTimer.wait(1f, fun (timer) {
+                FlixelTimer.wait(1f, fun(timer) {
                     when (targets[curSelected]) {
                         else -> {
                             Flixel.warn("Target with id \"${targets[curSelected]}\" does not exist! Ignoring input.")
@@ -109,7 +98,6 @@ class MainMenu : FlixelState() {
                 })
                 canSelect = false
             }
-            i++
         }
 
         if (Flixel.keys.justPressed(FlixelKey.DOWN) && canSelect) {
@@ -122,10 +110,5 @@ class MainMenu : FlixelState() {
             curSelected = curSelected.wrap(0, items.size)
             Flixel.sound.play("sounds/menu/scroll.mp3")
         }
-
-
     }
-
-
 }
-

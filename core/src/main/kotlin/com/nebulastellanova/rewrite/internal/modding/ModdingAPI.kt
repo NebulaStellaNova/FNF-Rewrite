@@ -2,44 +2,42 @@ package com.nebulastellanova.rewrite.internal.modding
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
+import org.flixelgdx.Flixel
+import com.badlogic.gdx.utils.Array as GdxArray
 import java.util.Properties
 
 object ModdingAPI {
 
-    var loadedMods = arrayListOf<String>() // All the mods available to enable
-    var enabledMods = arrayListOf<String>() // All the mods currently enabled
-
-//    fun applyPath(path: String): String {
-
-//    }
+    val loadedMods: GdxArray<String> = GdxArray()
+    val enabledMods: GdxArray<String> = GdxArray()
 
     fun init() {
-        var folder: FileHandle = Gdx.files.local("mods")
-        println("Found Mods:")
+        val folder: FileHandle = Gdx.files.local("mods")
+        Flixel.info("Found Mods:")
         for (file in folder.list()) {
             if (file.isDirectory) {
                 val localFile: FileHandle = Gdx.files.local("mods/${file.name()}/mod.properties")
                 if (localFile.exists()) {
-                    println("\t${file.name()}")
-                    var properties = Properties()
+                    Flixel.info("\t${file.name()}")
+                    val properties = Properties()
                     localFile.read().use { stream ->
                         properties.load(stream)
                     }
-                    val modMeta: ModMeta = ModMeta(properties)
-                    println(modMeta)
+                    val modMeta = ModMeta(properties)
+                    Flixel.info(modMeta)
                 } else {
-                    println("\tCould not find \"mod.properties\" in \"${file.name()}\" mod folder.")
+                    Flixel.info("\tCould not find \"mod.properties\" in \"${file.name()}\" mod folder.")
                 }
             }
         }
     }
 }
 
-class ModMeta(properties: Properties) {
+data class ModMeta(val properties: Properties) {
     var id: String? = null
     var name: String? = null
     var description: String? = null
-    var contributors = arrayListOf<String>()
+    val contributors: GdxArray<String> = GdxArray()
     var github: String? = null
     var version: String? = null
 
@@ -47,8 +45,8 @@ class ModMeta(properties: Properties) {
         id = properties.getProperty("id")
         name = properties.getProperty("name")
         description = properties.getProperty("description")
-        for (i in properties.getProperty("contributors").split(",")) {
-            contributors.add(i.trim())
+        for (contributor in properties.getProperty("contributors").split(",")) {
+            contributors.add(contributor.trim())
         }
         github = properties.getProperty("github")
         version = properties.getProperty("version")

@@ -34,8 +34,6 @@ class TitleState : FlixelState() {
         menuTheme.track?.play()
         add(menuTheme)
 
-        Flixel.setAntialiasing(true)
-
         logo = FlixelSprite(-150f, 100f)
         logo.animation = FlixelAnimationController(logo)
         logo.animation?.loadSparrowFrames(

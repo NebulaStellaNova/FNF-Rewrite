@@ -19,7 +19,13 @@ class FunkinGame : FlixelGame("Friday Night Funkin': Rewrite", 1280, 720, TitleS
     override fun create() {
         super.create()
 
+        // libGDX configs.
         Gdx.app.applicationLogger = Flixel.log
+
+        // FlixelGDX configs.
+        Flixel.setAntialiasing(true)
+
+        // Funkin' configs.
         ModdingAPI.init()
     }
 }
