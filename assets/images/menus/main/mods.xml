@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="mods.png" width="1714" height="170">
+	<SubTexture name="mods basic0000" x="10" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0001" x="10" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0002" x="10" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0003" x="10" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0004" x="10" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0005" x="10" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0006" x="317" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0007" x="317" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0008" x="317" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0009" x="317" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0010" x="317" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods basic0011" x="317" y="10" width="296" height="125" frameX="-0" frameY="-0" frameWidth="296" frameHeight="125"/>
+	<SubTexture name="mods white0000" x="624" y="10" width="349" height="147" frameX="-3" frameY="-1" frameWidth="356" frameHeight="150"/>
+	<SubTexture name="mods white0001" x="1350" y="10" width="354" height="150" frameX="-0" frameY="-0" frameWidth="356" frameHeight="150"/>
+	<SubTexture name="mods white0002" x="984" y="10" width="355" height="149" frameX="-0" frameY="-1" frameWidth="356" frameHeight="150"/>
+</TextureAtlas>

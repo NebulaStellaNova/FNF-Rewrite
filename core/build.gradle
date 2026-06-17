@@ -1,0 +1,19 @@
+plugins {
+  id 'org.jetbrains.kotlin.jvm'
+  id 'java-library'
+  id 'org.flixelgdx.logging' version "${flixelVersion}"
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+    vendor = JvmVendorSpec.ADOPTIUM
+  }
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+
+dependencies {
+  api "org.flixelgdx:flixelgdx-core:${flixelVersion}"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.24"
+}
