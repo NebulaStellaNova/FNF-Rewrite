@@ -58,7 +58,8 @@ object ModdingAPI {
         val matches = VALID_ID_CHARS.matches(id)
         if (!matches) {
             throw IllegalArgumentException(
-                "ID \"${id}\" is not valid, it must only contain lowercase letters and underscores.")
+                "ID \"${id}\" is not valid, it must only contain lowercase letters and underscores.",
+            )
         }
     }
 }

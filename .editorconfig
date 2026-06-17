@@ -44,6 +44,13 @@ ij_java_space_before_synchronized_left_brace = true
 
 indent_size = 4
 
+[*.{kt,kts}]
+# ktlint's function-signature and parameter-list-wrapping rules chop every parameter
+# onto its own line when the signature exceeds max_line_length. There is no "normal
+# wrap" mode in ktlint, so we disable these rules and let developers wrap manually.
+ktlint_standard_function-signature = disabled
+ktlint_standard_parameter-list-wrapping = disabled
+
 [*.gradle]
 indent_size = 4
 

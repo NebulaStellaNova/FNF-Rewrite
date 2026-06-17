@@ -88,13 +88,12 @@ class MainMenu : FlixelState() {
             }
             if (i == curSelected && Flixel.keys.justPressed(FlixelKey.ENTER) && canSelect) {
                 Flixel.sound.play("sounds/menu/confirm.mp3")
-                FlixelTween.flicker(item, 0.1f, 0.5f, false, FlixelTweenSettings(), null)
+                FlixelTween.flicker(item, 0.1f, 0.5f, true, FlixelTweenSettings(), null)
                 FlixelTimer.wait(1f, fun(timer) {
                     when (targets[curSelected]) {
                         else -> {
                             Flixel.warn("Target with id \"${targets[curSelected]}\" does not exist! Ignoring input.")
                             canSelect = true
-                            item.visible = true
                         }
                     }
                 })
