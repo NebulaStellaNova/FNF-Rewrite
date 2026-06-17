@@ -7,7 +7,6 @@ import org.flixelgdx.FlixelBasic
 import org.flixelgdx.audio.FlixelSound
 
 class FunkinConductor : FlixelBasic() {
-
     companion object {
         private val jsonReader = JsonReader()
     }

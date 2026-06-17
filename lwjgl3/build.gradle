@@ -49,8 +49,10 @@ run {
 dependencies {
     implementation project(":core")
     implementation "org.flixelgdx:flixelgdx-lwjgl3:${flixelVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-scripting-jsr223:1.9.24"
-
+    // I've commented this out for now, since when you try to package the game, it runs into an error.
+    // When we actually add scripting support later, we can worry about that, but for right now the easiest thing
+    // to do is simply ignore it.
+//    implementation "org.jetbrains.kotlin:kotlin-scripting-jsr223:1.9.24"
     if (enableGraalNative == 'true') {
         nativeImageOnly "io.github.berstanio:gdx-svmhelper-backend-lwjgl3:$graalHelperVersion"
     }

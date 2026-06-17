@@ -16,7 +16,6 @@ import org.flixelgdx.input.keyboard.FlixelKey
  * load sounds, and write your first update loop.
  */
 class FunkinGame : FlixelGame("Friday Night Funkin': Rewrite", 1280, 720, TitleState(), 60, true) {
-
     override fun create() {
         super.create()
 
@@ -35,6 +34,13 @@ class FunkinGame : FlixelGame("Friday Night Funkin': Rewrite", 1280, 720, TitleS
 
         if (Flixel.keys.justPressed(FlixelKey.F11)) {
             toggleFullscreen()
+        }
+
+        // Debug keybinds.
+        if (Flixel.isDebugMode()) {
+            if (Flixel.keys.justPressed(FlixelKey.F5)) {
+                System.gc()
+            }
         }
     }
 }

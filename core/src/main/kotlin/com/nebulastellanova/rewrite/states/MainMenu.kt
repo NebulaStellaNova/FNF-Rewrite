@@ -1,6 +1,5 @@
 package com.nebulastellanova.rewrite.states
 
-import com.badlogic.gdx.utils.Array as GdxArray
 import com.badlogic.gdx.utils.XmlReader
 import com.nebulastellanova.rewrite.util.MathUtil.wrap
 import com.nebulastellanova.rewrite.util.ParseUtil
@@ -14,6 +13,7 @@ import org.flixelgdx.tween.FlixelTween
 import org.flixelgdx.tween.settings.FlixelTweenSettings
 import org.flixelgdx.util.FlixelAxes
 import org.flixelgdx.util.timer.FlixelTimer
+import com.badlogic.gdx.utils.Array as GdxArray
 
 class MainMenu : FlixelState() {
     lateinit var background: FlixelSprite
@@ -60,10 +60,12 @@ class MainMenu : FlixelState() {
                 button.animation?.addAnimationByPrefix("idle", idle.getAttribute("prefix"), 24, true)
                 button.animation?.addAnimationByPrefix("selected", selected.getAttribute("prefix"), 24, true)
                 button.animation?.playAnimation("idle")
-                if (iOffsetX != 0f || iOffsetY != 0f)
+                if (iOffsetX != 0f || iOffsetY != 0f) {
                     button.animation?.addOffset("idle", iOffsetX, iOffsetY)
-                if (sOffsetX != 0f || sOffsetY != 0f)
+                }
+                if (sOffsetX != 0f || sOffsetY != 0f) {
                     button.animation?.addOffset("selected", sOffsetX, sOffsetY)
+                }
                 button.setOriginCenter()
                 button.updateHitbox()
                 button.screenCenter(FlixelAxes.X)

@@ -9,20 +9,13 @@
  * 4-space indentation.
  */
 subprojects {
-  apply plugin: 'com.diffplug.spotless'
+    apply plugin: 'com.diffplug.spotless'
 
-  spotless {
-    java {
-      // Eclipse JDT formatter: GJF style, 120-char lines, 2-space indent.
-      eclipse('4.33').configFile("$rootDir/gradle/spotless/eclipse-formatter.xml")
-
-      // Import groups, each separated by a blank line:
-      // | com | org | io | java/javax/jdk | everything else | static |
-      importOrder('com', 'org', 'io', 'java', 'javax', 'jdk', '', '\\#')
-
-      removeUnusedImports()
-      endWithNewline()
-      trimTrailingWhitespace()
+    spotless {
+        kotlin {
+            ktlint().setEditorConfigPath("$rootDir/.editorconfig")
+            endWithNewline()
+            trimTrailingWhitespace()
+        }
     }
-  }
 }

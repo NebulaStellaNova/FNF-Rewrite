@@ -16,4 +16,3 @@ object ConsoleColors {
     const val BOLD_RED = "\u001B[1;31m"
     const val BOLD_GREEN = "\u001B[1;32m"
 }
-

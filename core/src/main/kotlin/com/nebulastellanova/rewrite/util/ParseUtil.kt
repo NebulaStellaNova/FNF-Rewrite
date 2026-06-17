@@ -15,12 +15,11 @@ object ParseUtil {
      * @param path the path to the XML file, relative to the assets root (e.g. "data/config/mainmenu.xml").
      * @return the root [XmlReader.Element], or null if parsing fails.
      */
-    fun loadXml(path: String): XmlReader.Element? {
-        return try {
+    fun loadXml(path: String): XmlReader.Element? =
+        try {
             xmlReader.parse(Gdx.files.internal(path))
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
-    }
 }
