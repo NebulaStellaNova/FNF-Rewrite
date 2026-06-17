@@ -1,4 +1,4 @@
-# Rewrite
+# Friday Night Funkin': Rewrite
 
 Welcome! This folder is a tiny, runnable FlixelGDX starter. The big idea is simple:
 your gameplay code lives in the `core` module, and the `lwjgl3` (or `teavm`) module is only the launcher.
