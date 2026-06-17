@@ -1,5 +1,4 @@
 import io.github.fourlastor.construo.Target
-import java.util.Locale
 
 plugins {
     id 'org.jetbrains.kotlin.jvm'

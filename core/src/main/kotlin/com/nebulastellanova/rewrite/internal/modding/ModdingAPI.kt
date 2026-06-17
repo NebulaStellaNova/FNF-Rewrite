@@ -33,7 +33,7 @@ object ModdingAPI {
     }
 }
 
-data class ModMeta(val properties: Properties) {
+class ModMeta(properties: Properties) {
     var id: String? = null
     var name: String? = null
     var description: String? = null

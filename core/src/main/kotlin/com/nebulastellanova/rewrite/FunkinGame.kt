@@ -26,6 +26,6 @@ class FunkinGame : FlixelGame("Friday Night Funkin': Rewrite", 1280, 720, TitleS
         Flixel.setAntialiasing(true)
 
         // Funkin' configs.
-        ModdingAPI.init()
+//        ModdingAPI.init()
     }
 }

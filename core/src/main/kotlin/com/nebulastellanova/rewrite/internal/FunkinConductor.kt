@@ -1,20 +1,16 @@
 package com.nebulastellanova.rewrite.internal
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.utils.Json
+import com.badlogic.gdx.utils.JsonReader
 import org.flixelgdx.Flixel
 import org.flixelgdx.FlixelBasic
 import org.flixelgdx.audio.FlixelSound
 
-class MusicMeta {
-    var bpm: Double = 0.0
-}
-
 class FunkinConductor : FlixelBasic() {
 
-    companion object {
-        private val json = Json()
-    }
+//    companion object {
+//        private val jsonReader = JsonReader()
+//    }
 
     var bpm: Double = 0.0
     var curBeatDouble: Double = 0.0
@@ -44,9 +40,8 @@ class FunkinConductor : FlixelBasic() {
         track = Flixel.sound.play("$path/audio.mp3")
         track?.stop()
 
-        val fileHandle = Gdx.files.internal("$path/meta.json")
-        val meta: MusicMeta = json.fromJson(MusicMeta::class.java, fileHandle)
-        bpm = meta.bpm
+//        val meta = jsonReader.parse(Gdx.files.internal("$path/meta.json"))
+//        bpm = meta.getDouble("bpm")
     }
 
     override fun update(elapsed: Float) {

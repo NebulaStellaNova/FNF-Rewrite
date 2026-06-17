@@ -1,3 +1,4 @@
+<!DOCTYPE main-menu-data>
 <main-menu-data>
     <button id="story-menu" asset="menus/main/story mode" target="StoryMenu">
         <idle prefix="story mode basic" fps="24"/>
