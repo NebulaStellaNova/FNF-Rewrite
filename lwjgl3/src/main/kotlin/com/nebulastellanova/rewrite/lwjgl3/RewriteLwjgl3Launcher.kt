@@ -1,7 +1,7 @@
 package com.nebulastellanova.rewrite.lwjgl3
 
-import com.nebulastellanova.rewrite.FunkinGame
 import org.flixelgdx.backend.lwjgl3.FlixelLwjgl3Launcher
+import com.nebulastellanova.rewrite.RewriteGame
 import org.flixelgdx.backend.runtime.FlixelRuntimeMode
 
 /**
@@ -14,12 +14,9 @@ import org.flixelgdx.backend.runtime.FlixelRuntimeMode
  * game's code will live.
  */
 fun main() {
-    if (StartupHelper.startNewJvmIfRequired()) {
-        return
-    }
+  if (StartupHelper.startNewJvmIfRequired()) {
+    return
+  }
 
-    val game = FunkinGame()
-    val config = FlixelLwjgl3Launcher.buildDefaultConfig(game)
-    config.disableAudio(true)
-    FlixelLwjgl3Launcher.launch(game, FlixelRuntimeMode.DEBUG, config)
+  FlixelLwjgl3Launcher.launch(RewriteGame(), FlixelRuntimeMode.DEBUG)
 }

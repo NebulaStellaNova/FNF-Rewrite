@@ -9,6 +9,7 @@ import org.flixelgdx.FlixelState
  * `Flixel.switchState(MyOtherState())` from anywhere after Flixel has started.
  */
 class PlayState : FlixelState() {
+
     override fun create() {
         super.create()
     }

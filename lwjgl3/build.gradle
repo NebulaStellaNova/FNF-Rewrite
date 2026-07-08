@@ -1,4 +1,5 @@
 import io.github.fourlastor.construo.Target
+import java.util.Locale
 
 plugins {
     id 'org.jetbrains.kotlin.jvm'
@@ -38,7 +39,7 @@ run {
     // You can uncomment the next line if your IDE claims a build failure even when the app closed properly.
     setIgnoreExitValue(true)
 
-    jvmArgs = ["-Xms8M", "-Xmx64M"]
+    jvmArgs = ["-Xms8M", "-Xmx4096M"]
     if (isMacOs) jvmArgs += "-XstartOnFirstThread"
 
     // Always re-run even when no sources changed; without this Gradle marks the
@@ -49,10 +50,8 @@ run {
 dependencies {
     implementation project(":core")
     implementation "org.flixelgdx:flixelgdx-lwjgl3:${flixelVersion}"
-    // I've commented this out for now, since when you try to package the game, it runs into an error.
-    // When we actually add scripting support later, we can worry about that, but for right now the easiest thing
-    // to do is simply ignore it.
-//    implementation "org.jetbrains.kotlin:kotlin-scripting-jsr223:1.9.24"
+    implementation "org.jetbrains.kotlin:kotlin-scripting-jsr223:1.9.24"
+
     if (enableGraalNative == 'true') {
         nativeImageOnly "io.github.berstanio:gdx-svmhelper-backend-lwjgl3:$graalHelperVersion"
     }
