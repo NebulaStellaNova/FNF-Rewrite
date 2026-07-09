@@ -1,5 +1,8 @@
 package com.nebulastellanova.rewrite.states
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.files.FileHandle
+import com.nebulastellanova.rewrite.internal.Controls
 import com.nebulastellanova.rewrite.internal.FunkinConductor
 import com.nebulastellanova.rewrite.utils.Paths
 import org.flixelgdx.Flixel
@@ -8,12 +11,14 @@ import org.flixelgdx.FlixelState
 import org.flixelgdx.animation.FlixelAnimateSprite
 import org.flixelgdx.animation.FlixelAnimationController
 import org.flixelgdx.input.keyboard.FlixelKey
+import org.flixelgdx.text.FlixelFontRegistry
 import org.flixelgdx.tween.FlixelTween
 import org.flixelgdx.tween.settings.FlixelTweenSettings
 import org.flixelgdx.tween.settings.FlixelTweenType
 import org.flixelgdx.util.FlixelAxes
 import org.flixelgdx.util.FlixelColor
 import org.flixelgdx.util.timer.FlixelTimer
+import javax.naming.ldap.Control
 
 class TitleState : FlixelState() {
     lateinit var logo: FlixelSprite
@@ -21,7 +26,7 @@ class TitleState : FlixelState() {
     lateinit var text: FlixelAnimateSprite
 
     companion object {
-        var menuTheme: FunkinConductor = FunkinConductor()
+        var menuTheme: FunkinConductor? = null
     }
 
     var canSelect: Boolean = true
@@ -29,10 +34,17 @@ class TitleState : FlixelState() {
     override fun create() {
         super.create()
 
-        menuTheme.loadTrack("music/freakyMenu")
-        menuTheme.track?.isPersist = true
-        menuTheme.track?.play()
-        add(menuTheme)
+        FlixelFontRegistry.register("VCR OSD Mono", Gdx.files.internal("assets/fonts/vcr.ttf"))
+
+        if (menuTheme == null) {
+            menuTheme = FunkinConductor()
+            menuTheme?.loadTrack("music/freakyMenu")
+            menuTheme?.track?.isPersist = true
+            menuTheme?.track?.volume = 0.25f
+            menuTheme?.track?.play()
+            menuTheme?.track?.isLooped = true
+            add(menuTheme!!)
+        }
 
         Flixel.setAntialiasing(true)
 
@@ -75,17 +87,19 @@ class TitleState : FlixelState() {
         )
 
         Flixel.info(text)
+        
+        Flixel.cameras.first().flash(FlixelColor(255, 255, 255, 255), 1f)
     }
 
     override fun update(elapsed: Float) {
         super.update(elapsed)
-        if (Flixel.keys.justPressed(FlixelKey.ENTER) && canSelect) {
+        if (Controls.ACCEPT && canSelect) {
             FlixelTween.cancelTweensOf(text)
             text.setColor(FlixelColor.WHITE)
             text.animation?.playAnimation("Confirm")
 
             Flixel.cameras.first().flash(FlixelColor(255, 255, 255, 255), 1f)
-            Flixel.sound.play("sounds/menu/confirm.mp3")
+            Flixel.sound.play("sounds/menu/confirm.mp3").volume = 0.25f
             canSelect = false
             FlixelTimer.wait(2f, fun(timer: FlixelTimer) {
                 Flixel.switchState(MainMenu())

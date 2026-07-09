@@ -1,25 +1,35 @@
 package com.nebulastellanova.rewrite.states
 
 import com.badlogic.gdx.utils.Predicate
+import com.nebulastellanova.rewrite.internal.Controls
 import com.nebulastellanova.rewrite.utils.ConsoleColors
 import com.nebulastellanova.rewrite.utils.MathUtil.wrap
 import com.nebulastellanova.rewrite.utils.ParseUtil
 import com.nebulastellanova.rewrite.utils.Paths
 import org.flixelgdx.Flixel
+import org.flixelgdx.FlixelGame
+import org.flixelgdx.FlixelObject
 import org.flixelgdx.FlixelSprite
 import org.flixelgdx.FlixelState
 import org.flixelgdx.animation.FlixelAnimationController
 import org.flixelgdx.input.keyboard.FlixelKey
+import org.flixelgdx.text.FlixelFontRegistry
+import org.flixelgdx.text.FlixelText
 import org.flixelgdx.tween.FlixelTween
 import org.flixelgdx.tween.settings.FlixelTweenSettings
 import org.flixelgdx.tween.type.FlixelFlickerTween
 import org.flixelgdx.util.FlixelAxes
+import org.flixelgdx.util.FlixelColor
 import org.flixelgdx.util.FlixelMathUtil
 import org.flixelgdx.util.timer.FlixelTimer
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
+import java.awt.Desktop
+import java.net.URI
+import javax.naming.ldap.Control
+import kotlin.math.roundToInt
 
 class MainMenu : FlixelState() {
     lateinit var background: FlixelSprite
@@ -29,6 +39,8 @@ class MainMenu : FlixelState() {
     var targets = arrayListOf<String?>()
     var curSelected = 0
     var canSelect: Boolean = true
+    var camFollow: FlixelObject = FlixelObject(0f, 0f, 1f, 1f);
+    var versionTxt: FlixelText = FlixelText()
 
     override fun create() {
         super.create()
@@ -39,15 +51,20 @@ class MainMenu : FlixelState() {
 
         background = FlixelSprite(-150f, 100f)
         background.loadGraphic(Paths.image("menus/main/menuBG"))
+
+        background.setScrollFactor(0.17f, 0.17f)
+        background.setGraphicSize((Flixel.getViewWidth() * 1.2).roundToInt(), (Flixel.getViewHeight() * 1.2).roundToInt());
         background.updateHitbox()
         background.screenCenter()
-        background.setColor(253f / 255f, 232f / 255f, 75f / 255f, 1.0f)
         add(background)
 
         if (menuData != null) {
             var element = menuData.documentElement;
             element.normalize()
             var buttonList: NodeList = element.getElementsByTagName("button");
+
+            var spacing: Float = 160f;
+            var top: Float = (Flixel.getViewHeight() - (spacing * (buttonList.length - 1))) / 2;
 
             for (i in 0 until buttonList.length) {
                 val node = buttonList.item(i)
@@ -65,8 +82,9 @@ class MainMenu : FlixelState() {
                 var sOffsetY: Float = if (selected.getAttribute("y").toString().trim() != "") selected.getAttribute("y")
                     .toFloat() else 0f;
 
-                var button: FlixelSprite = FlixelSprite(0f, -150f * i)
-                button.y += 720 - 200
+                var button: FlixelSprite = FlixelSprite(0f, 0f)
+                button.y = top + spacing * ((buttonList.length-1) - i);
+                button.setScrollFactor(0f, 0.4f);
                 button.animation = FlixelAnimationController(button)
                 button.animation?.loadSparrowFrames(Paths.image(imgPath), Paths.sparrow(imgPath))
                 button.animation?.addAnimationByPrefix("idle", idle.getAttribute("prefix"), 24, true)
@@ -85,6 +103,17 @@ class MainMenu : FlixelState() {
                 add(button)
             }
         }
+
+        Flixel.cameras[0].follow(camFollow, null, 0.06f)
+        camFollow.setPosition(items[curSelected].midpointX, items[curSelected].midpointY)
+
+        versionTxt.x = 9f;
+        versionTxt.y = 7f;
+        versionTxt.isAntialiasing = true;
+        versionTxt.setScrollFactor(0f, 0f);
+        versionTxt.text = "Friday Night Funkin': Rewrite - v0.0.1";
+        versionTxt.setFormat("VCR OSD Mono", 16, FlixelColor.WHITE, FlixelText.Alignment.RIGHT, FlixelText.BorderStyle.OUTLINE, FlixelColor.BLACK);
+        add(versionTxt);
     }
 
     override fun update(elapsed: Float) {
@@ -100,15 +129,39 @@ class MainMenu : FlixelState() {
             if (item.animation?.currentAnim != animName) {
                 item.animation?.playAnimation(animName)
             }
-            if (i == curSelected && Flixel.keys.justPressed(FlixelKey.ENTER) && canSelect) {
-                Flixel.sound.play("sounds/menu/confirm.mp3")
+
+            if (i == curSelected && Controls.ACCEPT && canSelect) {
+                Flixel.sound.play("sounds/menu/confirm.mp3").volume = 0.25f
                 FlixelTween.flicker(item, 0.1f, 0.5f, false, FlixelTweenSettings(), null)
                 FlixelTimer.wait(1f, fun (timer) {
-                    when (targets[curSelected]) {
-                        else -> {
-                            Flixel.warn("Target with id \"${targets[curSelected]}\" does not exist! Ignoring input.")
-                            canSelect = true
-                            item.visible = true
+                    if (targets[curSelected].toString().contains("://")) {
+                        var url = targets[curSelected].toString()
+                        val desktop = if (Desktop.isDesktopSupported()) Desktop.getDesktop() else null
+                        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+                            try {
+                                desktop.browse(URI(url))
+                            } catch (e: Exception) {
+                                e.printStackTrace() // Handle IO or security exceptions
+                            }
+                        } else {
+                            // Fallback for environments where AWT Desktop is unsupported
+                            val os = System.getProperty("os.name").lowercase()
+                            val runtime = Runtime.getRuntime()
+                            when {
+                                os.contains("win") -> runtime.exec(arrayOf("cmd", "/c", "start", url))
+                                os.contains("mac") -> runtime.exec(arrayOf("open", url))
+                                os.contains("nix") || os.contains("nux") -> runtime.exec(arrayOf("xdg-open", url))
+                            }
+                        }
+                        canSelect = true
+                        item.visible = true
+                    } else {
+                        when (targets[curSelected]) {
+                            else -> {
+                                Flixel.warn("Target with id \"${targets[curSelected]}\" does not exist! Ignoring input.")
+                                canSelect = true
+                                item.visible = true
+                            }
                         }
                     }
                 })
@@ -116,16 +169,29 @@ class MainMenu : FlixelState() {
             }
             i++
         }
+        if (Controls.BACK && canSelect) {
 
-        if (Flixel.keys.justPressed(FlixelKey.DOWN) && canSelect) {
+            var snd = Flixel.sound.play("sounds/menu/cancel.mp3")
+            snd.volume = 0.25f
+            snd.isPersist = true
+
+            Flixel.switchState(TitleState())
+        }
+
+        if (Controls.UI_DOWN && canSelect) {
             curSelected++
             curSelected = curSelected.wrap(0, items.size)
-            Flixel.sound.play("sounds/menu/scroll.mp3")
+            Flixel.sound.play("sounds/menu/scroll.mp3").volume = 0.25f
+
+            camFollow.setPosition(items[curSelected].midpointX, items[curSelected].midpointY)
         }
-        if (Flixel.keys.justPressed(FlixelKey.UP) && canSelect) {
+
+        if (Controls.UI_UP && canSelect) {
             curSelected--
             curSelected = curSelected.wrap(0, items.size)
-            Flixel.sound.play("sounds/menu/scroll.mp3")
+            Flixel.sound.play("sounds/menu/scroll.mp3").volume = 0.25f
+
+            camFollow.setPosition(items[curSelected].midpointX, items[curSelected].midpointY)
         }
 
 
