@@ -11,8 +11,22 @@ object Controls {
         "ui-up" to arrayListOf("UP", "W"),
         "ui-right" to arrayListOf("RIGHT", "D"),
         "accept" to arrayListOf("ENTER", "Z"),
-        "back" to arrayListOf(/* "BACKSPACE", */ "ESCAPE")
+        "back" to arrayListOf(/* "BACKSPACE", */ "ESCAPE"),
+
+        "note-left" to arrayListOf("LEFT", "W"),
+        "note-down" to arrayListOf("LEFT", "F"),
+        "note-up" to arrayListOf("LEFT", "J"),
+        "note-right" to arrayListOf("LEFT", "O")
     )
+
+    val NOTE_LEFT: Boolean
+            get() { return get("note-left") }
+    val NOTE_DOWN: Boolean
+            get() { return get("note-down") }
+    val NOTE_UP: Boolean
+            get() { return get("note-up") }
+    val NOTE_RIGHT: Boolean
+            get() { return get("note-right") }
 
     val UI_LEFT: Boolean
         get() { return get("ui-left") }

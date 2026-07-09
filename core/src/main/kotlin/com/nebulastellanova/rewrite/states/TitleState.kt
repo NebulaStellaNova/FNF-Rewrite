@@ -2,6 +2,7 @@ package com.nebulastellanova.rewrite.states
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
+import com.nebulastellanova.rewrite.internal.Constants
 import com.nebulastellanova.rewrite.internal.Controls
 import com.nebulastellanova.rewrite.internal.FunkinConductor
 import com.nebulastellanova.rewrite.utils.Paths
@@ -34,13 +35,14 @@ class TitleState : FlixelState() {
     override fun create() {
         super.create()
 
+        Flixel.sound.masterVolume = 0.0f
+
         FlixelFontRegistry.register("VCR OSD Mono", Gdx.files.internal("assets/fonts/vcr.ttf"))
 
         if (menuTheme == null) {
             menuTheme = FunkinConductor()
             menuTheme?.loadTrack("music/freakyMenu")
             menuTheme?.track?.isPersist = true
-            menuTheme?.track?.volume = 0.25f
             menuTheme?.track?.play()
             menuTheme?.track?.isLooped = true
             add(menuTheme!!)
@@ -87,23 +89,29 @@ class TitleState : FlixelState() {
         )
 
         Flixel.info(text)
-        
+
         Flixel.cameras.first().flash(FlixelColor(255, 255, 255, 255), 1f)
     }
 
     override fun update(elapsed: Float) {
         super.update(elapsed)
-        if (Controls.ACCEPT && canSelect) {
-            FlixelTween.cancelTweensOf(text)
-            text.setColor(FlixelColor.WHITE)
-            text.animation?.playAnimation("Confirm")
+        if (Controls.ACCEPT) {
+            var timer: FlixelTimer = FlixelTimer()
+            if (canSelect) {
+                FlixelTween.cancelTweensOf(text)
+                text.setColor(FlixelColor.WHITE)
+                text.animation?.playAnimation("Confirm")
 
-            Flixel.cameras.first().flash(FlixelColor(255, 255, 255, 255), 1f)
-            Flixel.sound.play("sounds/menu/confirm.mp3").volume = 0.25f
-            canSelect = false
-            FlixelTimer.wait(2f, fun(timer: FlixelTimer) {
+                Flixel.cameras.first().flash(FlixelColor(255, 255, 255, 255), 1f)
+                Flixel.sound.play("sounds/menu/confirm.mp3")
+                canSelect = false
+                timer = FlixelTimer.wait(2f, fun(timer: FlixelTimer) {
+                    Flixel.switchState(MainMenu())
+                })
+            } else {
+                timer.cancel()
                 Flixel.switchState(MainMenu())
-            })
+            }
         }
     }
 }

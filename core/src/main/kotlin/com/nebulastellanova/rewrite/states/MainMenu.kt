@@ -1,34 +1,27 @@
 package com.nebulastellanova.rewrite.states
 
-import com.badlogic.gdx.utils.Predicate
+import com.nebulastellanova.rewrite.internal.Constants
 import com.nebulastellanova.rewrite.internal.Controls
-import com.nebulastellanova.rewrite.utils.ConsoleColors
 import com.nebulastellanova.rewrite.utils.MathUtil.wrap
 import com.nebulastellanova.rewrite.utils.ParseUtil
 import com.nebulastellanova.rewrite.utils.Paths
 import org.flixelgdx.Flixel
-import org.flixelgdx.FlixelGame
 import org.flixelgdx.FlixelObject
 import org.flixelgdx.FlixelSprite
 import org.flixelgdx.FlixelState
 import org.flixelgdx.animation.FlixelAnimationController
 import org.flixelgdx.input.keyboard.FlixelKey
-import org.flixelgdx.text.FlixelFontRegistry
 import org.flixelgdx.text.FlixelText
 import org.flixelgdx.tween.FlixelTween
 import org.flixelgdx.tween.settings.FlixelTweenSettings
-import org.flixelgdx.tween.type.FlixelFlickerTween
 import org.flixelgdx.util.FlixelAxes
 import org.flixelgdx.util.FlixelColor
-import org.flixelgdx.util.FlixelMathUtil
 import org.flixelgdx.util.timer.FlixelTimer
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import java.awt.Desktop
 import java.net.URI
-import javax.naming.ldap.Control
 import kotlin.math.roundToInt
 
 class MainMenu : FlixelState() {
@@ -131,7 +124,7 @@ class MainMenu : FlixelState() {
             }
 
             if (i == curSelected && Controls.ACCEPT && canSelect) {
-                Flixel.sound.play("sounds/menu/confirm.mp3").volume = 0.25f
+                Flixel.sound.play("sounds/menu/confirm.mp3")
                 FlixelTween.flicker(item, 0.1f, 0.5f, false, FlixelTweenSettings(), null)
                 FlixelTimer.wait(1f, fun (timer) {
                     if (targets[curSelected].toString().contains("://")) {
@@ -157,6 +150,8 @@ class MainMenu : FlixelState() {
                         item.visible = true
                     } else {
                         when (targets[curSelected]) {
+                            "FreeplayMenu" ->
+                                Flixel.switchState(FreeplayMenu())
                             else -> {
                                 Flixel.warn("Target with id \"${targets[curSelected]}\" does not exist! Ignoring input.")
                                 canSelect = true
@@ -172,7 +167,6 @@ class MainMenu : FlixelState() {
         if (Controls.BACK && canSelect) {
 
             var snd = Flixel.sound.play("sounds/menu/cancel.mp3")
-            snd.volume = 0.25f
             snd.isPersist = true
 
             Flixel.switchState(TitleState())
@@ -181,7 +175,7 @@ class MainMenu : FlixelState() {
         if (Controls.UI_DOWN && canSelect) {
             curSelected++
             curSelected = curSelected.wrap(0, items.size)
-            Flixel.sound.play("sounds/menu/scroll.mp3").volume = 0.25f
+            Flixel.sound.play("sounds/menu/scroll.mp3")
 
             camFollow.setPosition(items[curSelected].midpointX, items[curSelected].midpointY)
         }
@@ -189,7 +183,7 @@ class MainMenu : FlixelState() {
         if (Controls.UI_UP && canSelect) {
             curSelected--
             curSelected = curSelected.wrap(0, items.size)
-            Flixel.sound.play("sounds/menu/scroll.mp3").volume = 0.25f
+            Flixel.sound.play("sounds/menu/scroll.mp3")
 
             camFollow.setPosition(items[curSelected].midpointX, items[curSelected].midpointY)
         }

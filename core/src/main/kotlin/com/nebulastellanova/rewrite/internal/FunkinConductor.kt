@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Json
 import org.flixelgdx.Flixel
 import org.flixelgdx.FlixelBasic
 import org.flixelgdx.audio.FlixelSound
+import kotlin.math.abs
 import kotlin.math.floor
 
 class MusicMeta {
@@ -14,6 +15,7 @@ class MusicMeta {
 
 
 class FunkinConductor: FlixelBasic() {
+    var additionalTracks: Array<FlixelSound> = emptyArray()
 
     var bpm:Double = 0.0
     var numerator:Int = 4
@@ -55,7 +57,10 @@ class FunkinConductor: FlixelBasic() {
     var prevBeat = 0
     override fun update(elapsed: Float) {
         super.update(elapsed)
-//        println(songPosition)
+        for (i in additionalTracks) {
+//            i.time = track!!.time
+        }
+
         val time = songPosition / 1000
 
         val beatScale = 4.0 / denominator
@@ -76,6 +81,31 @@ class FunkinConductor: FlixelBasic() {
             println(curBeat)
             prevBeat = curBeat
         }
+    }
 
+    fun addAdditionalTrack(track: FlixelSound) {
+        additionalTracks += track
+    }
+
+    fun play() {
+        track?.play()
+        for (i in additionalTracks) {
+            i.time = track?.time!!
+            i.play()
+        }
+    }
+
+    fun pause() {
+        track?.pause()
+        for (i in additionalTracks) i.pause()
+    }
+
+    fun resume() {
+        play()
+    }
+
+    fun stop() {
+        track?.stop()
+        for (i in additionalTracks) i.stop()
     }
 }

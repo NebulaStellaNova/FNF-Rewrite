@@ -1,0 +1,5 @@
+<!DOCTYPE level-character-data>
+<level-character-data scale="0.8" x="20" y="-20">
+	<animation name="idle"       prefix="BF idle dance white"  fps="24"    looped="false"/>
+	<animation name="confirm"    prefix="BF HEY!!"             fps="24"    looped="false" y="4"/>
+</level-character-data>
