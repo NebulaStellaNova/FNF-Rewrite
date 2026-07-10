@@ -83,10 +83,10 @@ jobs:
           mkdir -p unpacked
           unzip dist/fnf-rewrite-koltin-macOsAarch64.zip -d unpacked
 
-      - name: Move the jar file
-        run: |
-          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' ./unpacked/app/fnf-rewrite-koltin.json
-          mv ./unpacked/fnf-rewrite-koltin*.jar ./unpacked/app/
+      # - name: Move the jar file
+      #   run: |
+      #     perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' ./unpacked/app/fnf-rewrite-koltin.json
+      #     mv ./unpacked/fnf-rewrite-koltin*.jar ./unpacked/app/
 
       - name: Upload macOS bundle
         uses: actions/upload-artifact@v4
