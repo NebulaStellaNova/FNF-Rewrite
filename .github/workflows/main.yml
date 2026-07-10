@@ -1,12 +1,14 @@
 name: Build Desktop Bundles
 
+# Place this file at .github/workflows/main.yml (or similar) in your repo.
+
 on:
   push:
     branches: [ master ]
     tags: [ 'v*' ]
   pull_request:
     branches: [ master ]
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 jobs:
   package-linux:
@@ -21,7 +23,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -54,7 +56,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -87,7 +89,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
