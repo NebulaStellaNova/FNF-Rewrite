@@ -38,10 +38,8 @@ run {
     classpath += files(rootProject.file('assets'))
     // You can uncomment the next line if your IDE claims a build failure even when the app closed properly.
     setIgnoreExitValue(true)
-
     jvmArgs = ["-Xms8M", "-Xmx4096M"]
     if (isMacOs) jvmArgs += "-XstartOnFirstThread"
-
     // Always re-run even when no sources changed; without this Gradle marks the
     // task up-to-date on the second launch and the game never opens.
     outputs.upToDateWhen { false }
@@ -67,6 +65,7 @@ jar {
     // Gdx.files.internal() resolves from the classpath root when running inside a JAR,
     // so the assets directory must be embedded at the JAR root.
     from(rootProject.file('assets'))
+
     // These "exclude" lines remove unnecessary or harmful duplicate files from the output JAR.
     // module-info.class files must be excluded because the fat JAR merges named modules
     // (FlixelGDX core, libGDX) with automatic modules. Leaving module-info.class in causes
@@ -77,11 +76,13 @@ jar {
     dependencies {
         exclude('META-INF/INDEX.LIST', 'META-INF/maven/**')
     }
+
     // Setting the manifest makes the JAR runnable.
     // Enabling native access helps avoid a warning when Java 24 or later runs the JAR.
     manifest {
         attributes 'Main-Class': application.mainClass, 'Enable-Native-Access': 'ALL-UNNAMED'
     }
+
     // This last step may help on some OSes that need extra instruction to make runnable JARs.
     doLast {
         archiveFile.get().asFile.setExecutable(true, false)
@@ -109,6 +110,16 @@ construo {
     humanName.set(providers.gradleProperty("gameName"))
     mainClass.set(application.mainClass.get())
     outputDir.set(rootProject.layout.projectDirectory.dir("dist"))
+
+    jlink {
+        // kotlin-scripting-jsr223 pulls in kotlin-compiler-embeddable, whose classes
+        // reference com.sun.tools.javac.tree. jdeps' auto-detection (guessModulesFromJar,
+        // on by default) can't cleanly resolve that reference back to jdk.compiler because
+        // module-info.class files are stripped from the fat jar above, so we add it
+        // explicitly to make sure jlink includes it.
+        modules.addAll("jdk.compiler")
+    }
+
     roast {
         runOnFirstThread.set(true)
         // ZGC is tuned for large server heaps and adds no benefit for a small game heap.
@@ -121,11 +132,13 @@ construo {
         // treats it as an experimental flag even when disabling it.
         vmArgs.addAll(["-XX:+UnlockExperimentalVMOptions", "-XX:-EnableJVMCI"])
     }
+
     targets.configure {
         create("linuxX64", Target.Linux) {
             architecture.set(Target.Architecture.X86_64)
             jdkUrl.set("https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jdk_x64_linux_hotspot_21.0.11_10.tar.gz")
         }
+
         create("macOsX64", Target.MacOs) {
             architecture.set(Target.Architecture.X86_64)
             jdkUrl.set("https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jdk_x64_mac_hotspot_21.0.11_10.tar.gz")
@@ -134,6 +147,7 @@ construo {
             buildNumber.set(v)
             versionNumber.set(v)
         }
+
         create("macOsAarch64", Target.MacOs) {
             architecture.set(Target.Architecture.AARCH64)
             jdkUrl.set("https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.11_10.tar.gz")
@@ -142,6 +156,7 @@ construo {
             buildNumber.set(v)
             versionNumber.set(v)
         }
+
         create("winX64", Target.Windows) {
             architecture.set(Target.Architecture.X86_64)
             jdkUrl.set("https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jdk_x64_windows_hotspot_21.0.11_10.zip")
