@@ -1,0 +1,71 @@
+name: Build Desktop Bundles
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  package:
+    name: Package Windows / macOS / Linux bundles
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 (Eclipse Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build jar
+        run: ./gradlew :lwjgl3:jar --stacktrace
+
+      # Construo cross-packages every target from one host; each target
+      # downloads its own JDK bundle on first run.
+      - name: Package Linux x64 bundle
+        run: ./gradlew :lwjgl3:packageLinuxX64 --stacktrace
+
+      - name: Package macOS (Apple Silicon) bundle
+        run: ./gradlew :lwjgl3:packageMacOsAarch64 --stacktrace
+
+      - name: Package Windows x64 bundle
+        run: ./gradlew :lwjgl3:packageWinX64 --stacktrace
+
+      - name: Upload Linux bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-x64-bundle
+          path: dist/*linux*x64*
+          if-no-files-found: warn
+
+      - name: Upload macOS bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-aarch64-bundle
+          path: dist/*mac*aarch64*
+          if-no-files-found: warn
+
+      - name: Upload Windows bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64-bundle
+          path: dist/*win*x64*
+          if-no-files-found: warn
+
+      - name: Upload all dist artifacts (fallback)
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-dist-bundles
+          path: dist/**
+          if-no-files-found: warn

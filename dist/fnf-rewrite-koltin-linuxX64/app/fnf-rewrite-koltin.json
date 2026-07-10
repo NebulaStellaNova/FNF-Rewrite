@@ -1,1 +1,0 @@
-{"classPath":["fnf-rewrite-koltin-0.0.1.jar"],"mainClass":"com.nebulastellanova.rewrite.lwjgl3.RewriteLwjgl3LauncherKt","runOnFirstThread":true,"useZgcIfSupportedOs":false,"useMainAsContextClassLoader":false,"vmArgs":["-XX:+UnlockExperimentalVMOptions","-XX:-EnableJVMCI"]}
