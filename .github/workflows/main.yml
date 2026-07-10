@@ -40,6 +40,11 @@ jobs:
           mkdir -p unpacked
           unzip dist/fnf-rewrite-koltin-linuxX64.zip -d unpacked
 
+      - name: Move the jar file
+        run: |
+          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' app/fnf-rewrite-koltin.json
+          mv fnf-rewrite-koltin*.jar ./app/
+
       - name: Upload Linux bundle
         uses: actions/upload-artifact@v4
         with:
@@ -78,6 +83,10 @@ jobs:
           mkdir -p unpacked
           unzip dist/fnf-rewrite-koltin-macOsAarch64.zip -d unpacked
 
+      - name: Move the jar file
+        run: |
+          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' app/fnf-rewrite-koltin.json
+
       - name: Upload macOS bundle
         uses: actions/upload-artifact@v4
         with:
@@ -115,6 +124,10 @@ jobs:
         run: |
           mkdir -p unpacked
           unzip dist/fnf-rewrite-koltin-winX64.zip -d unpacked
+
+      - name: Move the jar file
+        run: |
+          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' app/fnf-rewrite-koltin.json
 
       - name: Upload Windows bundle
         uses: actions/upload-artifact@v4
