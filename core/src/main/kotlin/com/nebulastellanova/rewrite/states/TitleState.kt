@@ -35,8 +35,6 @@ class TitleState : FlixelState() {
     override fun create() {
         super.create()
 
-        FlixelFontRegistry.register("VCR OSD Mono", Gdx.files.internal("assets/fonts/vcr.ttf"))
-
         if (menuTheme == null) {
             menuTheme = FunkinConductor()
             menuTheme?.loadTrack("music/freakyMenu")

@@ -1,11 +1,13 @@
 package com.nebulastellanova.rewrite
 
+import com.badlogic.gdx.Gdx
 import com.nebulastellanova.rewrite.internal.modding.ModdingAPI
 import com.nebulastellanova.rewrite.states.PlayState
 import com.nebulastellanova.rewrite.states.TitleState
 import org.flixelgdx.Flixel
 import org.flixelgdx.FlixelGame
 import org.flixelgdx.input.keyboard.FlixelKey
+import org.flixelgdx.text.FlixelFontRegistry
 
 /**
  * Your game entry class.
@@ -18,6 +20,8 @@ import org.flixelgdx.input.keyboard.FlixelKey
 class RewriteGame : FlixelGame("Friday Night Funkin': Rewrite", 1280, 720, TitleState()) {
     override fun create() {
         Flixel.sound.masterVolume = 0.5f
+
+        FlixelFontRegistry.register("VCR OSD Mono", Gdx.files.internal("fonts/vcr.ttf"))
         super.create()
 
         ModdingAPI.init()
