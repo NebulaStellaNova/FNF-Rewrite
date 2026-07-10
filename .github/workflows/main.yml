@@ -1,5 +1,7 @@
 name: Build Desktop Bundles
 
+# Place this file at .github/workflows/main.yml (or similar) in your repo.
+
 on:
   push:
     branches: [ master ]
@@ -35,14 +37,14 @@ jobs:
       - name: Package Linux x64 bundle
         run: ./gradlew :lwjgl3:packageLinuxX64 --stacktrace
 
-      - name: List dist output (debug)
-        run: ls -la dist/ || echo "dist/ not found"
+      - name: Rename bundle
+        run: cp dist/fnf-rewrite-koltin-linuxX64.zip dist/fnf-rewrite-linux.zip
 
       - name: Upload Linux bundle
         uses: actions/upload-artifact@v4
         with:
-          name: linux-x64-bundle
-          path: dist/
+          name: fnf-rewrite-linux
+          path: dist/fnf-rewrite-linux.zip
           if-no-files-found: warn
 
   package-macos:
@@ -71,14 +73,14 @@ jobs:
       - name: Package macOS Aarch64 bundle
         run: ./gradlew :lwjgl3:packageMacOsAarch64 --stacktrace
 
-      - name: List dist output (debug)
-        run: ls -la dist/ || echo "dist/ not found"
+      - name: Rename bundle
+        run: cp dist/fnf-rewrite-koltin-macOsAarch64.zip dist/fnf-rewrite-macos.zip
 
       - name: Upload macOS bundle
         uses: actions/upload-artifact@v4
         with:
-          name: macos-aarch64-bundle
-          path: dist/
+          name: fnf-rewrite-macos
+          path: dist/fnf-rewrite-macos.zip
           if-no-files-found: warn
 
   package-windows:
@@ -107,12 +109,12 @@ jobs:
       - name: Package Windows x64 bundle
         run: ./gradlew :lwjgl3:packageWinX64 --stacktrace
 
-      - name: List dist output (debug)
-        run: ls -la dist/ || echo "dist/ not found"
+      - name: Rename bundle
+        run: cp dist/fnf-rewrite-koltin-winX64.zip dist/fnf-rewrite-windows.zip
 
       - name: Upload Windows bundle
         uses: actions/upload-artifact@v4
         with:
-          name: windows-x64-bundle
-          path: dist/
+          name: fnf-rewrite-windows
+          path: dist/fnf-rewrite-windows.zip
           if-no-files-found: warn
