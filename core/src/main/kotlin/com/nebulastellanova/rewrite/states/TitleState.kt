@@ -35,8 +35,6 @@ class TitleState : FlixelState() {
     override fun create() {
         super.create()
 
-        Flixel.sound.masterVolume = 0.0f
-
         FlixelFontRegistry.register("VCR OSD Mono", Gdx.files.internal("assets/fonts/vcr.ttf"))
 
         if (menuTheme == null) {

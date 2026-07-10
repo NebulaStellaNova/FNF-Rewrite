@@ -45,7 +45,7 @@ class MainMenu : FlixelState() {
         background = FlixelSprite(-150f, 100f)
         background.loadGraphic(Paths.image("menus/main/menuBG"))
 
-        background.setScrollFactor(0.17f, 0.17f)
+        background.setScrollFactor(0f, 0.17f)
         background.setGraphicSize((Flixel.getViewWidth() * 1.2).roundToInt(), (Flixel.getViewHeight() * 1.2).roundToInt());
         background.updateHitbox()
         background.screenCenter()
