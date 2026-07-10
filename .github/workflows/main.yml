@@ -6,10 +6,11 @@ on:
     tags: [ 'v*' ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 jobs:
   package:
+    permissions: write-all
     name: Package Windows / macOS / Linux bundles
     runs-on: ubuntu-latest
     steps:
