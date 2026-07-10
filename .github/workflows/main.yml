@@ -1,7 +1,5 @@
 name: Build Desktop Bundles
 
-# Place this file at .github/workflows/main.yml (or similar) in your repo.
-
 on:
   push:
     branches: [ master ]
@@ -37,14 +35,16 @@ jobs:
       - name: Package Linux x64 bundle
         run: ./gradlew :lwjgl3:packageLinuxX64 --stacktrace
 
-      - name: Rename bundle
-        run: cp dist/fnf-rewrite-koltin-linuxX64.zip dist/fnf-rewrite-linux.zip
+      - name: Extract bundle for upload
+        run: |
+          mkdir -p unpacked
+          unzip dist/fnf-rewrite-koltin-linuxX64.zip -d unpacked
 
       - name: Upload Linux bundle
         uses: actions/upload-artifact@v4
         with:
           name: fnf-rewrite-linux
-          path: dist/fnf-rewrite-linux.zip
+          path: unpacked/
           if-no-files-found: warn
 
   package-macos:
@@ -73,14 +73,16 @@ jobs:
       - name: Package macOS Aarch64 bundle
         run: ./gradlew :lwjgl3:packageMacOsAarch64 --stacktrace
 
-      - name: Rename bundle
-        run: cp dist/fnf-rewrite-koltin-macOsAarch64.zip dist/fnf-rewrite-macos.zip
+      - name: Extract bundle for upload
+        run: |
+          mkdir -p unpacked
+          unzip dist/fnf-rewrite-koltin-macOsAarch64.zip -d unpacked
 
       - name: Upload macOS bundle
         uses: actions/upload-artifact@v4
         with:
           name: fnf-rewrite-macos
-          path: dist/fnf-rewrite-macos.zip
+          path: unpacked/
           if-no-files-found: warn
 
   package-windows:
@@ -109,12 +111,14 @@ jobs:
       - name: Package Windows x64 bundle
         run: ./gradlew :lwjgl3:packageWinX64 --stacktrace
 
-      - name: Rename bundle
-        run: cp dist/fnf-rewrite-koltin-winX64.zip dist/fnf-rewrite-windows.zip
+      - name: Extract bundle for upload
+        run: |
+          mkdir -p unpacked
+          unzip dist/fnf-rewrite-koltin-winX64.zip -d unpacked
 
       - name: Upload Windows bundle
         uses: actions/upload-artifact@v4
         with:
           name: fnf-rewrite-windows
-          path: dist/fnf-rewrite-windows.zip
+          path: unpacked/
           if-no-files-found: warn
