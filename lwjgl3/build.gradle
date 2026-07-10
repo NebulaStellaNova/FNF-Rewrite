@@ -112,12 +112,23 @@ construo {
     outputDir.set(rootProject.layout.projectDirectory.dir("dist"))
 
     jlink {
-        // kotlin-scripting-jsr223 pulls in kotlin-compiler-embeddable, whose classes
-        // reference com.sun.tools.javac.tree. jdeps' auto-detection (guessModulesFromJar,
-        // on by default) can't cleanly resolve that reference back to jdk.compiler because
-        // module-info.class files are stripped from the fat jar above, so we add it
-        // explicitly to make sure jlink includes it.
-        modules.addAll("jdk.compiler")
+        // kotlin-compiler-embeddable (pulled in via kotlin-scripting-jsr223) ships a
+        // MANIFEST.MF "Add-Exports"/"Add-Opens" style entry referencing
+        // jdk.compiler/com.sun.tools.javac.tree. Construo's jdeps-based auto-detection
+        // (guessModulesFromJar) misreads that whole string as a single required module
+        // name (module names never contain '/'), which jlink then fails to resolve no
+        // matter what we add manually. Turning off auto-detection avoids that bad entry
+        // entirely; we list every module the app actually needs by hand instead.
+        guessModulesFromJar.set(false)
+        modules.addAll(
+            "java.base",
+            "java.desktop",
+            "java.logging",
+            "java.management",
+            "java.scripting",
+            "jdk.unsupported",
+            "jdk.compiler"
+        )
     }
 
     roast {
