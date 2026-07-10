@@ -1,7 +1,5 @@
 name: Build Desktop Bundles
 
-# Place this file at .github/workflows/main.yml (or similar) in your repo.
-
 on:
   push:
     branches: [ master ]
@@ -37,11 +35,14 @@ jobs:
       - name: Package Linux x64 bundle
         run: ./gradlew :lwjgl3:packageLinuxX64 --stacktrace
 
+      - name: List dist output (debug)
+        run: ls -la dist/ || echo "dist/ not found"
+
       - name: Upload Linux bundle
         uses: actions/upload-artifact@v4
         with:
           name: linux-x64-bundle
-          path: dist/*linux*x64*
+          path: dist/
           if-no-files-found: warn
 
   package-macos:
@@ -70,11 +71,14 @@ jobs:
       - name: Package macOS Aarch64 bundle
         run: ./gradlew :lwjgl3:packageMacOsAarch64 --stacktrace
 
+      - name: List dist output (debug)
+        run: ls -la dist/ || echo "dist/ not found"
+
       - name: Upload macOS bundle
         uses: actions/upload-artifact@v4
         with:
           name: macos-aarch64-bundle
-          path: dist/*mac*aarch64*
+          path: dist/
           if-no-files-found: warn
 
   package-windows:
@@ -103,9 +107,12 @@ jobs:
       - name: Package Windows x64 bundle
         run: ./gradlew :lwjgl3:packageWinX64 --stacktrace
 
+      - name: List dist output (debug)
+        run: ls -la dist/ || echo "dist/ not found"
+
       - name: Upload Windows bundle
         uses: actions/upload-artifact@v4
         with:
           name: windows-x64-bundle
-          path: dist/*win*x64*
+          path: dist/
           if-no-files-found: warn
