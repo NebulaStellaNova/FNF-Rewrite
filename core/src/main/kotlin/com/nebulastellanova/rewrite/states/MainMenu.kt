@@ -40,7 +40,7 @@ class MainMenu : FlixelState() {
 
         items.clear()
 
-        var menuData: Document? = ParseUtil.loadXmlFromPath("assets/data/config/mainmenu.xml")
+        var menuData: Document? = ParseUtil.loadXmlFromPath("data/config/mainmenu.xml")
 
         background = FlixelSprite(-150f, 100f)
         background.loadGraphic(Paths.image("menus/main/menuBG"))

@@ -3,6 +3,7 @@ package com.nebulastellanova.rewrite.utils
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.utils.Json
+import com.badlogic.gdx.utils.XmlReader
 import com.nebulastellanova.rewrite.internal.Constants
 import com.nebulastellanova.rewrite.internal.modding.ModMeta
 import org.flixelgdx.Flixel
@@ -14,15 +15,23 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.Properties
 import java.util.zip.ZipInputStream
+import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 
 object ParseUtil {
     fun loadXmlFromPath(filePath: String): Document? {
+        val fileHandle = Gdx.files.internal(filePath)
+        Flixel.info(fileHandle.exists())
+        if (!fileHandle.exists() || fileHandle.isDirectory) return null
+
         return try {
-            val file = File(filePath)
             val factory = DocumentBuilderFactory.newInstance()
+
             val builder = factory.newDocumentBuilder()
-            builder.parse(file)
+
+            fileHandle.read().use { inputStream ->
+                builder.parse(inputStream)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             null
