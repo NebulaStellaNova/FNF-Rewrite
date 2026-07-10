@@ -42,8 +42,8 @@ jobs:
 
       - name: Move the jar file
         run: |
-          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' app/fnf-rewrite-koltin.json
-          mv fnf-rewrite-koltin*.jar ./app/
+          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' ./app/fnf-rewrite-koltin.json
+          mv ./fnf-rewrite-koltin*.jar ./app/
 
       - name: Upload Linux bundle
         uses: actions/upload-artifact@v4
@@ -85,7 +85,8 @@ jobs:
 
       - name: Move the jar file
         run: |
-          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' app/fnf-rewrite-koltin.json
+          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' ./app/fnf-rewrite-koltin.json
+          mv ./fnf-rewrite-koltin*.jar ./app/
 
       - name: Upload macOS bundle
         uses: actions/upload-artifact@v4
@@ -127,7 +128,8 @@ jobs:
 
       - name: Move the jar file
         run: |
-          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' app/fnf-rewrite-koltin.json
+          perl -pi -e 's|"classPath":\["fnf-rewrite-koltin|"classPath":\["app/fnf-rewrite-koltin|g' ./app/fnf-rewrite-koltin.json
+          mv ./fnf-rewrite-koltin*.jar ./app/
 
       - name: Upload Windows bundle
         uses: actions/upload-artifact@v4
