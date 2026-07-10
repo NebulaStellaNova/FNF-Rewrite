@@ -14,10 +14,7 @@ class StrumSprite : FlixelSprite {
         this.direction = direction
 
         this.animation = FlixelAnimationController(this)
-        this.animation?.loadSparrowFrames(
-            Paths.image("game/notes/default/strums"),
-            Paths.sparrow("game/notes/default/strums")
-        )
+        this.animation?.addSparrowAtlas(Paths.sparrow("game/notes/default/strums"))
         this.animation?.addAnimationByPrefix("idle", "static${arrayOf("Left", "Down", "Up", "Right")[direction]}", 24, true)
         this.animation?.addAnimationByPrefix("confirm", "confirm${arrayOf("Left", "Down", "Up", "Right")[direction]}", 24, false)
         this.animation?.addAnimationByPrefix("press", "press${arrayOf("Left", "Down", "Up", "Right")[direction]}", 24, false)
@@ -25,8 +22,8 @@ class StrumSprite : FlixelSprite {
 //        this.animation?.addOffset("confirm", 40f, 40f)
         this.setScale(0.7f)
         this.updateHitbox()
-        this.offsetX = 40f;
-        this.offsetY = 40f;
+        this.offsetX = -40f;
+        this.offsetY = -40f;
     }
 
 }

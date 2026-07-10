@@ -79,7 +79,7 @@ class MainMenu : FlixelState() {
                 button.y = top + spacing * ((buttonList.length-1) - i);
                 button.setScrollFactor(0f, 0.4f);
                 button.animation = FlixelAnimationController(button)
-                button.animation?.loadSparrowFrames(Paths.image(imgPath), Paths.sparrow(imgPath))
+                button.animation?.addSparrowAtlas(Paths.sparrow(imgPath))
                 button.animation?.addAnimationByPrefix("idle", idle.getAttribute("prefix"), 24, true)
                 button.animation?.addAnimationByPrefix("selected", selected.getAttribute("prefix"), 24, true)
                 button.animation?.playAnimation("idle")
@@ -94,6 +94,8 @@ class MainMenu : FlixelState() {
                 ids.add(element.getAttribute("id"))
                 targets.add(target)
                 add(button)
+
+                button.animation?.centerOffsets()
             }
         }
 
@@ -107,6 +109,11 @@ class MainMenu : FlixelState() {
         versionTxt.text = "Friday Night Funkin': Rewrite - v0.0.1";
         versionTxt.setFormat("VCR OSD Mono", 16, FlixelColor.WHITE, FlixelText.Alignment.RIGHT, FlixelText.BorderStyle.OUTLINE, FlixelColor.BLACK);
         add(versionTxt);
+
+        for (i in members!!) {
+            if (i is FlixelSprite)
+                i.isAntialiasing = true
+        }
     }
 
     override fun update(elapsed: Float) {

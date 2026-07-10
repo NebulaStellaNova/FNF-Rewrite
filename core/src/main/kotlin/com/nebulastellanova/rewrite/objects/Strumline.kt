@@ -30,6 +30,7 @@ class Strumline : FlixelSpriteGroup {
             add(strum)
             strum
         }
+        strums.forEach { strum -> strum.isAntialiasing = true}
 
         this.notes = ArrayList(notes.size)
         for (n in notes) {
@@ -69,6 +70,7 @@ class Strumline : FlixelSpriteGroup {
                 strums[note.id].animation?.playAnimation("confirm", false, true)
             } else if (daY > -100 && !members.contains(note)) {
                 add(note)
+                note.isAntialiasing = true
             }
 
             note.y = daY

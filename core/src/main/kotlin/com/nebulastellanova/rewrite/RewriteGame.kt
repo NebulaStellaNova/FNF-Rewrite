@@ -17,13 +17,10 @@ import org.flixelgdx.input.keyboard.FlixelKey
  */
 class RewriteGame : FlixelGame("Friday Night Funkin': Rewrite", 1280, 720, TitleState()) {
     override fun create() {
-
         Flixel.sound.masterVolume = 0.5f
         super.create()
 
         ModdingAPI.init()
-
-
     }
 
     override fun update(elapsed: Float) {
@@ -37,6 +34,8 @@ class RewriteGame : FlixelGame("Friday Night Funkin': Rewrite", 1280, 720, Title
             Flixel.sound.masterVolume -= 0.1f
             if (Flixel.sound.masterVolume < 0.0f)
                 Flixel.sound.masterVolume = 0.0f
+        } else if (Flixel.keys.justPressed(FlixelKey.NUM_0)) {
+            Flixel.sound.masterVolume = 0.0f
         }
     }
 }

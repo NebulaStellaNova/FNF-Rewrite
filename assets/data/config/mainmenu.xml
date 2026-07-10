@@ -2,22 +2,22 @@
 <main-menu-data>
     <button id="story-menu" asset="menus/main/storymode" target="StoryMenu">
         <idle prefix="storymode idle" fps="24"/>
-        <selected prefix="storymode selected" fps="24" x="80" y="50"/>
+        <selected prefix="storymode selected" fps="24" x="-80" y="-50"/>
     </button>
     <button id="freeplay" asset="menus/main/freeplay" target="FreeplayMenu">
         <idle prefix="freeplay idle" fps="24"/>
-        <selected prefix="freeplay selected" fps="24" x="60" y="40"/>
+        <selected prefix="freeplay selected" fps="24" x="-60" y="-40"/>
     </button>
     <button id="merch" asset="menus/main/merch" target="https://needlejuicerecords.com/en-ca/pages/friday-night-funkin">
         <idle prefix="merch idle" fps="24"/>
-        <selected prefix="merch selected" fps="24" x="60" y="40"/>
+        <selected prefix="merch selected" fps="24" x="-60" y="-40"/>
     </button>
     <button id="options" asset="menus/main/options" target="OptionsMenu">
         <idle prefix="options idle" fps="24"/>
-        <selected prefix="options selected" fps="24" x="60" y="40"/>
+        <selected prefix="options selected" fps="24" x="-60" y="-40"/>
     </button>
     <button id="credits" asset="menus/main/credits" target="CreditsMenu">
         <idle prefix="credits idle" fps="24"/>
-        <selected prefix="credits selected" fps="24" x="45" y="40"/>
+        <selected prefix="credits selected" fps="24" x="-45" y="-40"/>
     </button>
 </main-menu-data>

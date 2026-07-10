@@ -50,20 +50,14 @@ class TitleState : FlixelState() {
 
         logo = FlixelSprite(-150f, 100f)
         logo.animation = FlixelAnimationController(logo)
-        logo.animation?.loadSparrowFrames(
-            Paths.image("menus/title/logoBumpin"),
-            Paths.sparrow("menus/title/logoBumpin")
-        )
+        logo.animation?.addSparrowAtlas(Paths.sparrow("menus/title/logoBumpin"))
         logo.animation?.addAnimationByPrefix("idle", "logo bumpin", 24, true)
         logo.animation?.playAnimation("idle")
         add(logo)
 
         gf = FlixelSprite(512f, 40f)
         gf.animation = FlixelAnimationController(gf)
-        gf.animation?.loadSparrowFrames(
-            Paths.image("menus/title/gfDanceTitle"),
-            Paths.sparrow("menus/title/gfDanceTitle")
-        )
+        gf.animation?.addSparrowAtlas(Paths.sparrow("menus/title/gfDanceTitle"))
         gf.animation?.addAnimationByPrefix("idle", "gfDance", 24, true)
         gf.animation?.playAnimation("idle")
         add(gf)
@@ -82,13 +76,18 @@ class TitleState : FlixelState() {
         add(text)
 
         FlixelTween.color(
-            text, FlixelColor(0, 255, 255, 255), FlixelColor(56, 65, 187, 100),
+            text, FlixelColor(0f, 255f, 255f, 255f), FlixelColor(56f, 65f, 187f, 100f),
             FlixelTweenSettings().setType(FlixelTweenType.PINGPONG)
         )
 
         Flixel.info(text)
 
-        Flixel.cameras.first().flash(FlixelColor(255, 255, 255, 255), 1f)
+        Flixel.cameras.first().flash(FlixelColor.WHITE, 1f)
+
+        for (i in members!!) {
+            if (i is FlixelSprite)
+                i.isAntialiasing = true
+        }
     }
 
     override fun update(elapsed: Float) {
@@ -100,7 +99,7 @@ class TitleState : FlixelState() {
                 text.setColor(FlixelColor.WHITE)
                 text.animation?.playAnimation("Confirm")
 
-                Flixel.cameras.first().flash(FlixelColor(255, 255, 255, 255), 1f)
+                Flixel.cameras.first().flash(FlixelColor.WHITE, 1f)
                 Flixel.sound.play("sounds/menu/confirm.mp3")
                 canSelect = false
                 timer = FlixelTimer.wait(2f, fun(timer: FlixelTimer) {

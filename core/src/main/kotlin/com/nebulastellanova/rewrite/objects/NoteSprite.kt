@@ -19,10 +19,7 @@ class NoteSprite : FlixelSprite {
 
 
         this.animation = FlixelAnimationController(this)
-        this.animation?.loadSparrowFrames(
-            Paths.image("game/notes/default/notes"),
-            Paths.sparrow("game/notes/default/notes")
-        )
+        this.animation?.addSparrowAtlas(Paths.sparrow("game/notes/default/notes"))
         this.animation?.addAnimationByPrefix("idle", "note${arrayOf("Left", "Down", "Up", "Right")[id]}", 24, true)
         this.animation?.playAnimation("idle")
         this.setScale(0.7f)
