@@ -18,5 +18,10 @@ fun main() {
     return
   }
 
-  FlixelLwjgl3Launcher.launch(RewriteGame(), FlixelRuntimeMode.DEBUG, "images/window/icon.png")
+  FlixelLwjgl3Launcher.launch(RewriteGame(), FlixelRuntimeMode.DEBUG,
+      "images/window/icon16.png",
+      "images/window/icon32.png",
+      "images/window/icon64.png",
+      "images/window/icon128.png"
+  )
 }
